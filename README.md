@@ -1,5 +1,4 @@
-# aws-3-tier-architecture-project
-AWS 3-Tier Architecture using EC2, Nginx, Tomcat, and RDS
+# AWS 3-Tier Architecture Project
 
 ## Project Overview
 
@@ -8,15 +7,95 @@ This project demonstrates the implementation of a **classic AWS 3-Tier Architect
 The application follows a clear separation of concerns:
 
 * **Presentation Tier**: Nginx (Public Subnet)
-* **Application Tier**: Apache Tomcat (Private Subnet)
+* **Application Tier**: Apache Tomcat with Java application (Private Subnet)
 * **Database Tier**: Amazon RDS MySQL (Private Subnet)
 
 ---
 
 ## Architecture Diagram (Logical Flow)
+
 ![AWS 3 Tier Architecture](images/3_tier_architecture_diagram.png)
 
 User → Nginx (Public) → Tomcat (Private) → RDS MySQL (Private)
+
+---
+
+## Project Implementation Steps (Student App – 3 Tier)
+
+### Prerequisites
+
+* VPC
+* Subnets
+* Route Tables
+* Internet Gateway
+* NAT Gateway
+* RDS (MySQL)
+
+---
+
+### Step 1: Create VPC
+
+* **Name**: VPC-3-tier
+* **CIDR Block**: 192.168.0.0/16
+
+---
+
+### Step 2: Create Subnets
+
+1. **Public-Subnet-Nginx**
+
+   * CIDR: 192.168.1.0/24
+
+2. **Private-Subnet-Tomcat**
+
+   * CIDR: 192.168.2.0/24
+
+3. **Private-Subnet-Database**
+
+   * CIDR: 192.168.3.0/24
+
+4. **Public-Subnet-LB**
+
+   * CIDR: 192.168.4.0/24
+
+---
+
+### Step 3: Create Internet Gateway
+
+* **Name**: IGW-3-tier
+* Attach Internet Gateway to `VPC-3-Tier`
+
+---
+
+### Step 4: Create NAT Gateway
+
+* **Name**: NAT-3-tier
+* Create NAT Gateway in **Public Subnet**
+* Allocate and attach an Elastic IP
+
+---
+
+### Step 5: Create Route Tables
+
+#### Public Route Table (RT-Public-Subnet)
+
+* Associate Public Subnets
+* Route: `0.0.0.0/0 → Internet Gateway`
+
+#### Private Route Table (RT-Private-Subnet)
+
+* Associate Private Subnets (Tomcat + Database)
+* Route: `0.0.0.0/0 → NAT Gateway`
+
+---
+
+### Step 6: Create EC2 Instances
+
+* Launch **Nginx EC2** in Public Subnet
+* Launch **Tomcat EC2** in Private Subnet
+* Assign appropriate Security Groups
+
+---
 
 ---
 
@@ -222,26 +301,6 @@ After practice:
 * Delete RDS instance
 * Release Elastic IP
 * Delete VPC and related resources
-
----
-
-## Resume Description
-
-**AWS 3-Tier Architecture Project**
-
-* Designed and implemented a secure 3-tier architecture using VPC, EC2, Nginx, Tomcat, and RDS.
-* Configured public and private subnets with NAT Gateway and strict security groups.
-* Integrated Java application with MySQL RDS using JDBC and reverse proxy.
-
----
-
-## Future Enhancements
-
-* Application Load Balancer (ALB)
-* Auto Scaling Group for Tomcat
-* HTTPS with ACM
-* IAM Roles for secure credential management
-* CloudWatch monitoring and alarms
 
 ---
 
