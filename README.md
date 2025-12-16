@@ -8,12 +8,13 @@ This project demonstrates the implementation of a **classic AWS 3-Tier Architect
 The application follows a clear separation of concerns:
 
 * **Presentation Tier**: Nginx (Public Subnet)
-* **Application Tier**: Apache Tomcat with Java application (Private Subnet)
+* **Application Tier**: Apache Tomcat (Private Subnet)
 * **Database Tier**: Amazon RDS MySQL (Private Subnet)
 
 ---
 
 ## Architecture Diagram (Logical Flow)
+![AWS 3 Tier Architecture](images/3_tier_architecture_diagram.png)
 
 User → Nginx (Public) → Tomcat (Private) → RDS MySQL (Private)
 
